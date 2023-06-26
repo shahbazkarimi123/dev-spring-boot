@@ -1,5 +1,5 @@
 package com.karimi.cruddemo;
-
+import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,12 +17,56 @@ public class CruddemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(StudentDAO studentDAO){
 		return runner-> {
-			//createStudent(studentDAO);
-			// createmultipleStudent(studentDAO);
-			readStudent(studentDAO);
+			// createStudent(studentDAO);
+			createmultipleStudent(studentDAO);
+			// readStudent(studentDAO);
+			// queryForStudents(studentDAO);
+			// updateStudent(studentDAO);
+			// deleteStudent(studentDAO);
+			// deleteAllStudents(studentDAO);
 		};
 	}
 
+	private void deleteAllStudents(StudentDAO studentDAO) {
+		System.out.println("Deleting all students");
+		int numRowsDeleted  = studentDAO.deleteAll();
+		System.out.println("Deleted row count: " + numRowsDeleted);
+		
+	}
+	private void deleteStudent(StudentDAO studentDAO) {
+		int studentId = 3;
+		System.out.println("Deleting student id: "+ studentId);
+		studentDAO.delete(studentId);
+	}
+	private void updateStudent(StudentDAO studentDAO) {
+
+		//retrieve student based on the id: primary key
+		int studentId = 1;
+		System.out.println("Getting student with id: "+studentId);
+		Student myStudent = studentDAO.findById(studentId);
+
+		//change first name to "Scooby" 
+		System.out.println("Updating student ....");
+		myStudent.setFirstName("Scooby");
+
+		// update the student;
+
+		studentDAO.update(myStudent);
+
+		//display the updated student
+		System.out.println("Updated Student: " + myStudent);
+
+	}
+	private void queryForStudents(StudentDAO studentDAO) {
+
+		//get a list of student
+		List<Student> theStudents = studentDAO.findAll();
+
+		//display list of student
+		for(Student tempStudent:theStudents){
+			System.out.println(tempStudent);
+		}
+	}
 	private void readStudent(StudentDAO studentDAO) {
 
 		//create student object
@@ -42,7 +86,7 @@ public class CruddemoApplication {
 
 		// retrive student based on the id : primary key
 		System.out.println("Retrieving student with id: "+ theId);
-		Student myStudent = studentDAO.findByid(theId);
+		Student myStudent = studentDAO.findById(theId);
 
 		// display student
 		System.out.println("Found the student: " + myStudent);
