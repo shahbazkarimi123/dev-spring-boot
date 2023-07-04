@@ -42,20 +42,34 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO {
 
     @Override
     public Employee findById(int theId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        // get the employee
+        Employee theEmployee = entityManager.find(Employee.class,theId);
+
+
+        // return the employee
+        return theEmployee;
     }
 
     @Override
     public Employee save(Employee theEmployee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        
+        // save the employee
+        Employee dbEmployee = entityManager.merge(theEmployee);
+
+
+        // return the dbEmployee
+        return dbEmployee;
     }
 
     @Override
     public void deleteById(int theId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        // find employee by id
+        Employee theEmployee = entityManager.find(Employee.class, theId);
+
+        // remove employee
+
+        entityManager.remove(theEmployee);
+    
     }
 
 }
