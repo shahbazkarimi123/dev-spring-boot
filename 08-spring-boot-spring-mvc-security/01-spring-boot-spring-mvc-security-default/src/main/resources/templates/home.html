@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" 
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>Karimi company home page</h1>
     <hr>
@@ -21,22 +22,27 @@
         Role (s): <span sec:authentication="principal.authorities"></span>
     </p>
     <hr>
-    <!-- Add a link to point to /leaders ... this is for the managers-->
-    <p>
-        <a th:href="@{/leaders}">Leadership Meeting</a>
-        (Only for Manager peeps)
+    <div sec:authorize="hasRole('MANAGER')">
+        <!-- Add a link to point to /leaders ... this is for the managers-->
+        <p>
+            <a th:href="@{/leaders}">Leadership Meeting</a>
+            (Only for Manager peeps)
 
-    </p>
-    <!-- Add a link to point to /system ... this is for the Admins-->
-    <p>
-        <a th:href="@{/systems}">IT System Meeting </a>
-        (Only for Admins peeps)
-    </p>
+        </p>
+    </div>
+    <div sec:authorize="hasRole('ADMIN')">
+        <!-- Add a link to point to /system ... this is for the Admins-->
+        <p>
+            <a th:href="@{/systems}">IT System Meeting </a>
+            (Only for Admins peeps)
+        </p>
+    </div>
 
     <!-- Adding logout button-->
     <form action="#" th:action="@{/logout}" method="POST">
         <input type="submit" value="Logout" />
     </form>
-    
+
 </body>
+
 </html>
