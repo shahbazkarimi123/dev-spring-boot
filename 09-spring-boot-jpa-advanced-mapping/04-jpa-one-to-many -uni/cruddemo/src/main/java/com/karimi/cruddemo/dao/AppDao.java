@@ -1,5 +1,7 @@
 package com.karimi.cruddemo.dao;
 
+
+
 import java.util.List;
 
 import com.karimi.cruddemo.entity.Course;
@@ -28,5 +30,10 @@ public interface AppDao {
     Course findCourseById(int theId);
 
     void deleteCourseById(int theId);
+    
+    void save(Course theCourse);
+    
+    Course findCourseAndReviewByCourseId(int theId);
+
     
 }

@@ -9,9 +9,11 @@ import com.karimi.cruddemo.entity.Course;
 import com.karimi.cruddemo.entity.Instructor;
 import com.karimi.cruddemo.entity.InstructorDetail;
 
+import jakarta.transaction.Transactional;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
+
 
 @Repository
 public class AppDaoImpl implements AppDao{
@@ -146,5 +148,25 @@ public class AppDaoImpl implements AppDao{
         // delete the course
 
         entityManager.remove(tempCourse);
+    }
+
+    @Override
+    @Transactional
+    public void save(Course theCourse) {
+        entityManager.persist(theCourse);
+    }
+
+    @Override
+    public Course findCourseAndReviewByCourseId(int theId) {
+        
+        TypedQuery<Course> query = entityManager.createQuery(
+            "select c from Course c "
+            +"JOIN FETCH c.review "
+            +"where c.id= :data", Course.class);
+
+        query.setParameter("data", theId);
+        
+        Course tempCourse = query.getSingleResult();
+        return tempCourse;
     }
 }
